@@ -16,64 +16,82 @@
 // aleatoriamente un nombre de la lista y se mostrará en la página.
 
 
-let listaNombres = [];
+let participantes = [];
 
+// Función de ayuda para asignar texto a un elemento del DOM.
 function asignarTextoElemento(elemento, texto) {
-    let elementoHTML = document.querySelector(elemento);
+  const elementoHTML = document.querySelector(elemento);
+  if (elementoHTML) {
     elementoHTML.innerHTML = texto;
-    return;
+  }
 }
 
-function limpiarCaja(){
-    document.querySelector('#amigo').value = '';
+// Limpia el campo de entrada.
+function limpiarCaja() {
+  document.querySelector('#amigo').value = '';
 }
 
+// Resetea la aplicación a su estado inicial.
 function condicionesIniciales() {
-    listaNombres = [];
-    asignarTextoElemento('h1', 'Amigo Secreto');
-    asignarTextoElemento('#listaAmigos', '');
-    asignarTextoElemento('#resultado', '');
+  participantes = [];
+  asignarTextoElemento('h1', 'Amigo Secreto');
+  asignarTextoElemento('#listaAmigos', '');
+  asignarTextoElemento('#resultado', '');
 }
 
+// Agrega un nuevo participante después de pasar varias validaciones.
 function agregarAmigo() {
-    let nombre = document.querySelector('#amigo').value;
+  const nombre = document.querySelector('#amigo').value.trim();
 
-    if (nombre.trim() === '') {
-        alert('Por favor, ingresa un nombre válido.');
-        return;
-    }
+  // Validación: Nombre no puede estar vacío.
+  if (nombre === '') {
+    alert('Por favor, ingresa un nombre válido.');
+    return;
+  }
 
-    nombre = nombre.trim();
+  // Validación: Nombre no puede contener espacios.
+  if (nombre.includes(" ")) {
+    alert('El nombre no puede contener espacios.');
+    return;
+  }
 
-    if (listaNombres.includes(nombre)) {
-        alert('Ese amigo ya está participando.');
-        return;
-    }
+  // Validación: Nombre no puede ser demasiado largo.
+  if (nombre.length > 10) {
+    alert('El nombre no puede tener más de 10 caracteres.');
+    return;
+  }
 
-    listaNombres.push(nombre);
-    limpiarCaja();
-    mostrarLista();
+  // Validación: No se permiten nombres duplicados.
+  if (participantes.includes(nombre)) {
+    alert('Ese amigo ya está participando.');
+    return;
+  }
+
+  // Si todas las validaciones pasan, se agrega el nombre a la lista.
+  participantes.push(nombre);
+  limpiarCaja();
+  mostrarLista();
 }
 
-
+// Muestra la lista de participantes usando el formato correcto de HTML.
 function mostrarLista() {
-    let listaHTML = "";
-    for (let i = 0; i < listaNombres.length; i++) {
-        listaHTML += `<li>${listaNombres[i]}</li>`;
-    }
-    asignarTextoElemento('#listaAmigos', listaHTML);
+  const listaHTML = participantes.map(p => `<li>${p}</li>`).join('');
+  asignarTextoElemento('#listaAmigos', listaHTML);
 }
 
-
+// Realiza el sorteo y muestra el resultado.
 function sortearAmigo() {
-    if (listaNombres.length === 0) {
-        alert("No hay amigos en la lista. Agrega al menos uno.");
-        return;
-    }
+  if (participantes.length === 0) {
+    alert("No hay amigos en la lista. Agrega al menos uno.");
+    return;
+  }
 
-    let indice = Math.floor(Math.random() * listaNombres.length);
-    let amigoSorteado = listaNombres[indice];
+  const indiceAleatorio = Math.floor(Math.random() * participantes.length);
+  const amigoSorteado = participantes[indiceAleatorio];
 
-    asignarTextoElemento('#resultado', `<li>El amigo sorteado es: ${amigoSorteado}</li>`);
+  asignarTextoElemento('#resultado', `¡El amigo sorteado es: **${amigoSorteado}**!`);
 }
+
+// Se asegura de que la aplicación se inicie en su estado inicial cuando la página carga.
+window.onload = condicionesIniciales;
 
