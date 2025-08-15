@@ -160,3 +160,24 @@ ul {
 .button-draw:hover {
     background-color: var(--color-button-hover);
 }
+
+/* Botón de borrar participantes */
+.button-clear {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 40px;
+    color: var(--color-white);
+    background-color: #6c757d; /* gris oscuro */
+    font-size: 16px;
+}
+
+.button-clear img {
+    margin-right: 40px;
+    filter: brightness(0) invert(1); /* mantiene el ícono blanco */
+}
+
+.button-clear:hover {
+    background-color: #5a6268;
+}
+

@@ -73,6 +73,21 @@ function agregarAmigo() {
   mostrarLista();
 }
 
+// Borra todos los participantes y limpia la lista
+function borrarParticipantes() {
+  if (participantes.length === 0) {
+    alert("No hay participantes para borrar.");
+    return;
+  }
+
+  if (confirm("¿Seguro que quieres borrar todos los participantes?")) {
+    participantes = [];
+    asignarTextoElemento('#listaAmigos', '');
+    asignarTextoElemento('#resultado', '');
+  }
+}
+
+
 // Muestra la lista de participantes usando el formato correcto de HTML.
 function mostrarLista() {
   const listaHTML = participantes.map(p => `<li>${p}</li>`).join('');
